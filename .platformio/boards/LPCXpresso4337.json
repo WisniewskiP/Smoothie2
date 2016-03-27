@@ -1,0 +1,18 @@
+{
+    "LPC4330_M4": {
+        "build": {
+            "f_cpu": "120000000L",
+            "cpu": "cortex-m4",
+            "mcu": "lpc4337"
+        },
+        "frameworks": ["mbed"],
+        "name": "NXP LPCXpresso4337",
+        "platform": "nxplpc",
+        "upload": {
+            "maximum_ram_size": 36864,
+            "maximum_size": 262144
+        },
+        "url": "https://developer.mbed.org/platforms/LPCXpresso4337/",
+        "vendor": "NXP"
+    }
+}
