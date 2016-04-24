@@ -67,6 +67,11 @@ class Pin {
             }
         }
 
+        inline bool is_inverting()
+        {
+        	return inverting;
+        }
+
         mbed::PwmOut *hardware_pwm();
 
         mbed::InterruptIn *interrupt_pin();

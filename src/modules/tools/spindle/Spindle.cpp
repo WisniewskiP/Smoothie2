@@ -16,7 +16,6 @@
 #include "StreamOutputPool.h"
 #include "SlowTicker.h"
 #include "Conveyor.h"
-//#include "system_LPC17xx.h"
 
 #include "libs/Pin.h"
 #include "InterruptIn.h"
@@ -94,17 +93,16 @@ void Spindle::on_module_loaded()
     {
         Pin *smoothie_pin = new Pin();
         smoothie_pin->from_string(THEKERNEL->config->value(spindle_feedback_pin_checksum)->by_default("nc")->as_string());
-        smoothie_pin->as_input();
-        if (smoothie_pin->port_number == 0 || smoothie_pin->port_number == 2)
+        auto feedback_pin = smoothie_pin->interrupt_pin();
+        if (feedback_pin != nullptr)
         {
-            PinName pinname = port_pin((PortName)smoothie_pin->port_number, smoothie_pin->pin);
-            feedback_pin = new mbed::InterruptIn(pinname);
             feedback_pin->rise(this, &Spindle::on_pin_rise);
-            NVIC_SetPriority(EINT3_IRQn, 16);
+            // TODO: set prority
+            //NVIC_SetPriority(EINT3_IRQn, 16);
         }
         else
         {
-            THEKERNEL->streams->printf("Error: Spindle feedback pin has to be on P0 or P2.\n");
+            THEKERNEL->streams->printf("Error: Spindle feedback pin has to have interrupt possibility.\n");
             delete this;
             return;
         }
